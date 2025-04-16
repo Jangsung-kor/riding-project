@@ -1,35 +1,24 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+/* Element Plus 컨테이너가 전체 높이를 차지하도록 */
+#app,
+.el-container {
+  min-height: 100vh;
 }
 
-a,
-.green {
+/* 메인 컨텐츠 영역 */
+.el-main {
+  padding: 20px; /* Element Plus 기본 패딩 사용 또는 커스텀 */
+  max-width: 1200px; /* 컨텐츠 최대 너비 */
+  margin: 0 auto; /* 가운데 정렬 */
+  width: 100%;
+}
+
+/* 기본 링크 스타일 조정(필요시) */
+a {
+  color: var(--el-color-primary);
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
 }
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+a:hover {
+  color: var(--el-color-primary-dark-2);
 }

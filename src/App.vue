@@ -1,26 +1,39 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <el-container direction="vertical">
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+      <div class="wrapper">
+        <HelloWorld msg="You did it!" />
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav>
+      </div>
+    </header>
+    <el-main>
+      <RouterView />
+    </el-main>
+    <AppFooter />
+  </el-container>
 </template>
 
-<style scoped>
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import { ElContainer, ElMain } from 'element-plus' // Element Plus 컴포넌트 가져오기
+
+import HelloWorld from './components/HelloWorld.vue'
+import AppFooter from './components/AppFooter.vue'
+</script>
+
+<style>
+/* App.vue 에만 필요한 최소한의 스타일 또는 전역 스타일 import 확인 */
+/* 모든 스타일은 main.css와 컴포넌트 scoped style에서 처리 */
+.el-main {
+  /* main.css에서 처리했지만 여기서 오버라이드 */
+  padding: 25px;
+}
+
+
 header {
   line-height: 1.5;
   max-height: 100vh;
