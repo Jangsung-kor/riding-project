@@ -1,6 +1,6 @@
 <template>
   <el-footer class="app-footer" :height=footerHeight>
-    <p>© {{ currentYear }} FitApp. All rights reserved.</p>
+    <p>© {{ currentYear }} JS RideBook. All rights reserved.</p>
   </el-footer>
 </template>
 <script setup>
@@ -10,7 +10,7 @@ const footerHeight = ref('var(--footer-height)');
 const currentYear = ref(new Date().getFullYear());
 </script>
 
-<style scoped>
+<style>
 .app-footer {
   display: flex;
   justify-content: center;

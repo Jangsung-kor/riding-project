@@ -17,6 +17,12 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
+    // -- 자전거 기록 페이지 라우트
+    {
+      path: '/cycling-log',
+      name: 'cycling-log',
+      components: () => import('../views/CyclingLogView.vue'),
+    },
   ],
 })
 
