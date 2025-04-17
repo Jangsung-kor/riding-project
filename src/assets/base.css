@@ -1,0 +1,64 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  /* 다크 테마 회색 계열 팔레트 */
+
+  /* Element Plus 주요 색상 변수 오버라이트(회색 계열) */
+  --el-color-primary: #a1a1aa; /* 주요 색상 */
+  --el-color-primary-light-3: #d4d4d8;
+  --el-color-primary-light-5: #e4e4e7;
+  --el-color-primary-light-7: #f4f4f5;
+  --el-color-primary-light-8: #fafafa;
+  --el-color-primary-light-9: #ffffff;
+  --el-color-primary-dark-2: #71717a;
+
+  /* 배경색(어두운 회색 계열) */
+  --el-bg-color: #27272a; /* 컴포넌트 기본 배경(진한 회색) */
+  --el-bg-color-page: #18181b; /* 페이지 전체 배경(더 진한 회색) */
+  --el-bg-color-overlay: rgba(39, 39, 42, 0.8); /* 오버레이 배경 (약간 투명) */
+
+  /* border(배경과 구분되는 회색) */
+  --el-border-color: #3f3f46; /* 기본 테두리(배경보다 약간 밝은 색) */
+  --el-border-color-light: #52525b;
+  --el-border-color-lighter: #71717a;
+  --el-border-color-extra-light: #a1a1aa;
+  --el-border-color-dark: #27272a; /* 배경보다 약간 어두운 색(진한 회색) */
+  --el-border-color-darker: #18181b; /* 가장 어두운 배경과 비슷 */
+
+  /* text 색상(밝은 회색 / 흰색 계열) */
+  --el-text-color-primary: #f4f4f5; /* 주요 텍스트(아주 밝은 회색) */
+  --el-text-color-regular: #d4d4d8; /* 일반 텍스트 */
+  --el-text-color-secondary: #a1a1aa; /* 보조 텍스트 */
+  --el-text-color-placeholder: #71717a;
+  --el-text-color-disabled: #52525b;
+
+  /* 입력 필드 등(배경색과 유사한 색) */
+  --el-fill-color: #3f3f46; /* 기본 채움 색 */
+  --el-fill-color-light: #52525b;
+  --el-fill-color-lighter: #71717a;
+  --el-fill-color-extra-light: #a1a1aa;
+  --el-fill-color-dark: #27272a;
+  --el-fill-color-darker: #18181b;
+  --el-fill-color-blank: var(--el-bg-color);
+
+  /* 그림자 제거 또는 매우 연하게 조정(다크 테마에서는 불필요) */
+  --el-box-shadow: none;
+  --el-box-shadow-light: none;
+  --el-box-shadow-dark:
+    0px 12px 32px 4px rgba(200, 200, 200, 0.04), 0px 8px 20px rgba(200, 200, 200, 0.08); /* 매우 특이한 흰색 계열 그림자 */
+  /* --el-box-shadow-dark: none; 아예 제거(선택사항)  */
+
+  /* 커스텀 변수(필요시 사용) */
+  --header-height: 60px;
+  --footer-height: 50px;
+
+  /* 폰트 */
+  --el-font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+}
