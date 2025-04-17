@@ -4,7 +4,6 @@
       :model="formData"
       :rules="formRules"
       label-position="top"
-      @submit.prevent="submitForm"
     >
       <el-row :gutter="20">
         <el-col :span="12">
@@ -31,10 +30,22 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-form-item>
+        <el-button type="primary" @click="saveLog">
+          Save Log
+        </el-button>
+        <el-button @click="resetForm">
+          Reset
+        </el-button>
+      </el-form-item>
     </el-form>
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { cloneDeep } from 'lodash'
+
+const emit = defineEmits(['update-data'])
 
 // 폼 참조
 const formRef = ref(null);
@@ -71,7 +82,34 @@ const formRules = reactive(
     ],
   }
 )
-const submitForm = async () => {
+/**
+ * 싸이클 로그 저장 함수
+ */
+const saveLog = async () => {
   if (!formRef.value) return
+  await formRef.value.validate((valid, fields) => {
+    if (valid) {
+      // 여기에 실제 데이터 저장 로직 추가
+      // 예: API 호출
+      ElMessage({
+        message: '싸이클 로그 저장 완료!',
+        type: 'success',
+      })
+      emit('save-log', cloneDeep(formData))
+      resetForm();
+    } else {
+      ElMessage({
+        message: '싸이클 로그 저장 실패!',
+        type: 'error',
+      })
+    }
+  })
+}
+/**
+ * 폼 리셋 함수
+ */
+const resetForm = () => {
+  if (!formRef.value) return
+  formRef.value.resetFields()
 }
 </script>

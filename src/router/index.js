@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/cycling-log',
       name: 'cycling-log',
-      component: () => import('../views/CyclingLog/View.vue'),
+      component: () => import('../views/CyclingLog/CLView.vue'),
     },
   ],
 })
