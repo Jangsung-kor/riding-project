@@ -11,7 +11,7 @@
 </template>
 <script setup>
 import CyclingLogForm from '@/views/CyclingLog/Form.vue'
-import CyclingLogTable from '@/views/CyclingLog/Table.vue'
+import CyclingLogTable from '@/views/CyclingLog/Table2.vue'
 </script>
 <style>
 .cycling-log-view {
