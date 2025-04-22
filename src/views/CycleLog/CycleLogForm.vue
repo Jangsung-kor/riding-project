@@ -6,7 +6,7 @@
       label-position="top"
     >
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="날짜" prop="date">
             <el-date-picker
               style="width: 100%"
@@ -18,11 +18,22 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="거리" prop="distance">
             <el-input-number 
               style="width: 100%"
               v-model="formData.distance"
+              :precision="1"
+              :step="0.1"
+              :min="0"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="오르막" prop="uphillGain">
+            <el-input-number 
+              style="width: 100%"
+              v-model="formData.uphillGain"
               :precision="1"
               :step="0.1"
               :min="0"
@@ -54,7 +65,8 @@ const formRef = ref(null);
 const formData = reactive(
   {
     date: null,
-    distance: null // km 단위
+    distance: null, // km 단위
+    uphillGain: null // km 단위
   }
 )
 
@@ -69,6 +81,20 @@ const formRules = reactive(
     distance: [
       {
         required: true, message: '거리 칸을 채워주세요.', trigger: 'blur',
+      },
+      {
+        validator: (rule, value, callback) => {
+          if (value < 0) {
+            callback(new Error('숫자가 아닙니다.'));
+          } else {
+            callback()
+          }
+        }, trigger: 'blur'
+      }
+    ],
+    uphillGain: [
+      {
+        required: true, message: '오르막 칸을 채워주세요.', trigger: 'blur',
       },
       {
         validator: (rule, value, callback) => {

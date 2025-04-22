@@ -22,7 +22,7 @@
           About
         </el-menu-item>
         <!-- 자전거 기록 메뉴 항목 추가 -->
-        <el-menu-item index="/cycling-log">
+        <el-menu-item index="/cycle-log">
           Cycling-log
         </el-menu-item>
       </el-menu>

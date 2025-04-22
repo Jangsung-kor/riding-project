@@ -19,9 +19,9 @@ const router = createRouter({
     },
     // -- 자전거 기록 페이지 라우트
     {
-      path: '/cycling-log',
-      name: 'cycling-log',
-      component: () => import('../views/CyclingLog/CLView.vue'),
+      path: '/cycle-log',
+      name: 'cycleLog',
+      component: () => import('../views/CycleLog/CycleLogView.vue'),
     },
   ],
 })
