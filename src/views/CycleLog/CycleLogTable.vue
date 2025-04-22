@@ -2,7 +2,7 @@
   <div>
     <el-table
       style="width: 100%"
-     :data="tableData"
+     :data="filterTableData"
     >
       <el-table-column prop="date" label="날짜" sortable>
         <template #default="scope">
@@ -27,7 +27,12 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column align="right" width="120">
+      <el-table-column align="right">
+        <!--
+        <template #header>
+          <el-input v-model="search" />
+        </template>
+        -->
         <template #default="scope">
           <el-icon style="cursor: pointer" class="mr-r10" v-if="!isEdit(scope.$index)" @click="editData(scope.$index)" :size="20">
             <Edit />
@@ -44,10 +49,21 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination-container">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20]"
+        :total="filterTableData.length"
+        layout="prev, pager, next, sizes"
+        @size-change="onPagiSizeChange"
+        @current-change="onCurrentChange"
+      />
+    </div>
   </div>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { cloneDeep } from 'lodash'
 import moment from 'moment'
 import { ElMessageBox, ElMessage } from 'element-plus'
@@ -58,6 +74,17 @@ let editingForm = reactive({
     date: null,
     distance: null, // km 단위
     uphillGain: null // km 단위
+})
+const search = ref('')
+
+// -- Pagination 변수
+const currentPage = ref(1);
+const pageSize = ref(10);
+
+const filterTableData = computed(() => {
+  return tableData.filter(
+    (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase())
+  )
 })
 
 const setData = (data) => {
@@ -126,5 +153,19 @@ const isEdit = (index) => {
 const formattedDate = (date) => {
   return moment(date).format('YYYY-MM-DD HH:mm')
 }
+const onPagiSizeChange = (toPageSize) => {
+  pageSize.value = toPageSize;
+  currentPage.value = 1;
+}
+const onCurrentChange = (nextPage) => {
+  currentPage.value = nextPage;
+}
 defineExpose({ setData })
 </script>
+<style scoped>
+.pagination-container { 
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+</style>

@@ -43,7 +43,7 @@
       </el-row>
       <el-form-item>
         <el-button type="primary" @click="saveLog">
-          Save Log
+          Save
         </el-button>
         <el-button @click="resetForm">
           Reset
