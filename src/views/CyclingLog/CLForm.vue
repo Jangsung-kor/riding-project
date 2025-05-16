@@ -6,11 +6,11 @@
       label-position="top"
     >
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item label="날짜" prop="date">
+        <el-col :span="8">
+          <el-form-item label="날짜" prop="cycleDate">
             <el-date-picker
               style="width: 100%"
-              v-model="formData.date"
+              v-model="formData.cycleDate"
               type="datetime"
               clearable
               format="YYYY-MM-DD HH:mm"
@@ -18,12 +18,23 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="거리" prop="distance">
-            <el-input-number 
+            <el-input-number
               style="width: 100%"
               v-model="formData.distance"
-              :precision="1"
+              :precision="2"
+              :step="0.1"
+              :min="0"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="업힐" prop="uphillGain">
+            <el-input-number
+              style="width: 100%"
+              v-model="formData.uphillGain"
+              :precision="2"
               :step="0.1"
               :min="0"
             />
@@ -44,6 +55,8 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { cloneDeep } from 'lodash'
+import moment from 'moment'
+import { addCycleLog } from '@/api.js';
 
 const emit = defineEmits(['update-data'])
 
@@ -53,15 +66,16 @@ const formRef = ref(null);
 // 폼 데이터 모델
 const formData = reactive(
   {
-    date: null,
-    distance: null // km 단위
+    cycleDate: null,
+    distance: null, // km 단위
+    uphillGain: null, // km 단위위
   }
 )
 
 // 폼 유효성 검사 규칙
 const formRules = reactive(
   {
-    date: [
+    cycleDate: [
       {
         required: true, message: '날짜 칸을 채워주세요.', trigger: 'change',
       }
@@ -80,6 +94,20 @@ const formRules = reactive(
         }, trigger: 'blur'
       }
     ],
+    uphillGain: [
+      {
+        required: true, message: '업힐힐 칸을 채워주세요.', trigger: 'blur',
+      },
+      {
+        validator: (rule, value, callback) => {
+          if (value < 0) {
+            callback(new Error('숫자가 아닙니다.'));
+          } else {
+            callback()
+          }
+        }, trigger: 'blur'
+      }
+    ],
   }
 )
 /**
@@ -87,21 +115,31 @@ const formRules = reactive(
  */
 const saveLog = async () => {
   if (!formRef.value) return
-  await formRef.value.validate((valid, fields) => {
+  await formRef.value.validate(async (valid) => {
     if (valid) {
-      // 여기에 실제 데이터 저장 로직 추가
-      // 예: API 호출
-      ElMessage({
-        message: '싸이클 로그 저장 완료!',
-        type: 'success',
-      })
-      emit('save-log', cloneDeep(formData))
-      resetForm();
-    } else {
-      ElMessage({
-        message: '싸이클 로그 저장 실패!',
-        type: 'error',
-      })
+      try {
+        // 로컬 시간으로 변환
+        formData.cycleDate = moment(formData.cycleDate).format('YYYY-MM-DDTHH:mm');
+        const res = await addCycleLog(formData);
+        if (res.status === 201) {
+          ElMessage({
+            message: '싸이클 로그 저장 완료!',
+            type: 'success',
+          })
+          resetForm();
+          emit('re-load')
+        } else {
+          ElMessage({
+            message: '싸이클 로그 저장 실패!',
+            type: 'error',
+          })
+        }
+      } catch (error) {
+        ElMessage({
+          message: '싸이클 로그 저장 실패!',
+          type: 'error',
+        })
+      }
     }
   })
 }

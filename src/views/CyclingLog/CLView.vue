@@ -7,7 +7,7 @@
       Log New Cycling Ride
     </h1>
     <el-card class="mr-b10" shadow="never">
-      <CLForm @save-log="saveLog" />
+      <CLForm @re-load="loadData" />
     </el-card>
     <el-card shadow="never">
       <CLTable ref="clTableRef" />
@@ -21,8 +21,9 @@ import CLTable from '@/views/CyclingLog/CLTable.vue'
 
 const clTableRef = ref(null)
 
-const saveLog = (form) => {
-  clTableRef.value.setData(form)
+const loadData = () => {
+  console.log('데이터 추가 성공');
+  clTableRef.value.loadData();
 }
 </script>
 <style>
