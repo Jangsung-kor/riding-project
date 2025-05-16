@@ -4,9 +4,9 @@
 .mr-b10 {
   margin-bottom: 10px;
 }
-.mr-r5 {
-  margin-right: 5px;
-}
-.mr-r10 {
-  margin-right: 10px;
+/* 아이콘 비활성화 상태 */
+.icon-disabled {
+  color: var(--el-text-color-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
 }
