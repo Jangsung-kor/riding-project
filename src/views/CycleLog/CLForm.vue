@@ -7,10 +7,10 @@
   >
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="날짜" prop="date">
+        <el-form-item label="날짜" prop="cycleDate">
           <el-date-picker
             style="width: 100%"
-            v-model="formData.date"
+            v-model="formData.cycleDate"
             type="datetime"
             clearable
             format="YYYY-MM-DD HH:mm"
@@ -23,7 +23,7 @@
           <el-input-number
             style="width: 100%"
             v-model="formData.distance"
-            :precision="1"
+            :precision="2"
             :step="0.1"
             :min="0"
           />
@@ -34,7 +34,7 @@
           <el-input-number
             style="width: 100%"
             v-model="formData.uphillGain"
-            :precision="1"
+            :precision="0"
             :step="0.1"
             :min="0"
           />
@@ -54,7 +54,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
+import { isBoolean } from 'lodash'
+import { addCycleLog } from '@/api.js';
 
 const emit = defineEmits(['update-data'])
 
@@ -63,17 +64,17 @@ const formRef = ref(null);
 
 // 폼 데이터 모델
 const formData = reactive(
-{
-  date: null,
-  distance: null, // km 단위
-  uphillGain: null // km 단위
-}
+  {
+    cycleDate: null,
+    distance: null, // km 단위
+    uphillGain: null // km 단위
+  }
 )
 
 // 폼 유효성 검사 규칙
 const formRules = reactive(
 {
-  date: [
+  cycleDate: [
     {
       required: true, message: '날짜 칸을 채워주세요.', trigger: 'change',
     }
@@ -111,31 +112,47 @@ const formRules = reactive(
 /**
 * 싸이클 로그 저장 함수
 */
-const saveLog = async () => {
-if (!formRef.value) return
-await formRef.value.validate((valid, fields) => {
-  if (valid) {
-    // 여기에 실제 데이터 저장 로직 추가
-    // 예: API 호출
-    ElMessage({
-      message: '싸이클 로그 저장 완료!',
-      type: 'success',
-    })
-    emit('save-log', cloneDeep(formData))
-    resetForm();
-  } else {
-    ElMessage({
-      message: '싸이클 로그 저장 실패!',
-      type: 'error',
-    })
-  }
-})
+const saveLog = () => {
+  if (!formRef.value) return
+  formRef.value.validate((valid, fields) => {
+    if (valid) {
+      addLog();
+    } else {
+      ElMessage({
+        message: '로그 폼을 채워주세요.!',
+        type: 'warning',
+      })
+    }
+  })
+}
+const addLog = () => {
+  // Create a copy of formData to avoid modifying the original
+  const dataToSend = {
+    ...formData,
+    cycleDate: formData.cycleDate ? new Date(formData.cycleDate.getTime() + (9 * 60 * 60 * 1000)) : null
+  };
+
+  addCycleLog(dataToSend).then((res) => {
+    if (isBoolean(res.data.success)) {
+      ElMessage({
+        message: '싸이클 로그 저장 완료!',
+        type: 'success',
+      })
+      emit('re-load');
+      resetForm();
+    } else {
+      ElMessage({
+        message: '싸이클 로그 저장 실패!',
+        type: 'error',
+      })
+    }
+  });
 }
 /**
 * 폼 리셋 함수
 */
 const resetForm = () => {
-if (!formRef.value) return
-formRef.value.resetFields()
+  if (!formRef.value) return
+  formRef.value.resetFields()
 }
 </script>

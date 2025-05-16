@@ -7,22 +7,22 @@
       Log New Cycling Ride
     </h1>
     <el-card class="mr-b10" shadow="never">
-      <CycleLogForm @save-log="saveLog" />
+      <CLForm @re-load="loadData" />
     </el-card>
     <el-card shadow="never">
-      <CycleLogTable ref="cycleLogTableRef" />
+      <CLTable ref="CLTableRef" />
     </el-card>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue'
-import CycleLogForm from '@/views/CycleLog/CycleLogForm.vue'
-import CycleLogTable from '@/views/CycleLog/CycleLogTable.vue'
+import CLForm from '@/views/CycleLog/CLForm.vue'
+import CLTable from '@/views/CycleLog/CLTable.vue'
 
-const cycleLogTableRef = ref(null)
+const CLTableRef = ref(null);
 
-const saveLog = (form) => {
-  cycleLogTableRef.value.setData(form)
+const loadData = () => {
+  CLTableRef.value.loadData();
 }
 </script>
 <style>

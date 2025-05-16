@@ -17,3 +17,8 @@ export const updateCyceLog = (id, cycleLog) => axios.put(`${BASE_URL}/${id}`, cy
 
 // 자전거 로그 삭제
 export const deleteCycleLog = (id) => axios.delete(`${BASE_URL}/${id}`);
+// export const deleteCycleLog = (id) => axios.get(`${BASE_URL}/delete-log`, {
+//   params: {
+//     id,
+//   }
+// });
